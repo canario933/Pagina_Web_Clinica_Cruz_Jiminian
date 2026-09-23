@@ -24,3 +24,41 @@ Abrir PowerShell y ejecutar:
 
 ```powershell
 git clone https://github.com/canario933/Pagina_Web_Clinica_Cruz_Jiminian.git
+
+---
+## 📥 2. Crear el entorno virtual
+
+```powershell
+python -m venv .venv
+
+---
+
+## 3. Instalar las dependencias
+
+```powershell
+pip install -r requirements.txt
+
+---
+
+## 4. Crear la base de datos
+
+```powershell
+python manage.py migrate
+
+---
+## 5. Crear el usuario administrador
+
+```powershell
+python manage.py createsuperuser
+
+---
+## 6. Carpeta Media
+
+```powershell
+mkdir Media
+
+---
+## 7. Ejecutar el proyecto
+
+```powershell
+python manage.py runserver
