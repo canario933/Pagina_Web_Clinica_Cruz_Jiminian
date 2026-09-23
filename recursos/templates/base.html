@@ -1,0 +1,404 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    {% if configuracion and configuracion.logo_header %}
+        <link rel="icon" type="image/png" href="{{ configuracion.logo_header.url }}">
+    {% endif %}
+
+    <title>
+        {% block title %}
+            Clínica Cruz Jiminian
+        {% endblock %}
+    </title>
+
+    <meta
+        name="description"
+        content="Clínica Cruz Jiminian - Servicios médicos y atención profesional."
+    >
+
+    <!-- ICONOS -->
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+    >
+
+    <!-- CSS -->
+    <link
+        rel="stylesheet"
+        href="{% static 'css/styles.css' %}"
+    >
+
+</head>
+
+
+<body>
+
+
+    <!-- =====================================================
+        HEADER
+    ====================================================== -->
+
+    <header
+        class="site-header"
+        id="site-header"
+    >
+
+        <div class="container header-container">
+
+
+            <a
+                href="{% url 'inicio' %}"
+                class="logo"
+            >
+
+                <span class="brand-logo-wrap">
+
+                    <img
+                        src="{{ configuracion.logo_header.url|default:'/media/logos/logoccj.png' }}"
+                        alt="Clínica Cruz Jiminian"
+                        class="brand-logo"
+                    >
+
+                </span>
+
+
+                <span class="brand-name">
+
+                    Clínica<br>
+
+                    <small>
+                        Cruz Jiminian
+                    </small>
+
+                </span>
+
+            </a>
+
+
+            <button
+                class="menu-toggle"
+                id="menu-toggle"
+                aria-label="Abrir menú"
+                aria-expanded="false"
+                type="button"
+            >
+
+                <span></span>
+                <span></span>
+                <span></span>
+
+            </button>
+
+
+            <nav
+                class="main-nav"
+                id="main-nav"
+            >
+
+                <a
+                    href="{% url 'inicio' %}"
+                    class="nav-link"
+                >
+                    Inicio
+                </a>
+
+
+                <a
+                    href="{% url 'inicio' %}#sobre-nosotros"
+                    class="nav-link"
+                >
+                    Sobre nosotros
+                </a>
+
+
+                <a
+                    href="{% url 'inicio' %}#servicios"
+                    class="nav-link"
+                >
+                    Servicios
+                </a>
+
+
+                <a
+                    href="{% url 'inicio' %}#medicos"
+                    class="nav-link"
+                >
+                    Médicos
+                </a>
+
+
+                <a
+                    href="{% url 'inicio' %}#contactos"
+                    class="nav-link"
+                >
+                    Contactos
+                </a>
+
+
+                <a
+                    href="{% url 'inicio' %}#citas"
+                    class="btn btn-primary nav-appointment js-open-appointment"
+                >
+                    Reservar cita
+                </a>
+
+            </nav>
+
+        </div>
+
+    </header>
+
+
+    <!-- =====================================================
+        CONTENIDO
+    ====================================================== -->
+
+    <main>
+
+        {% block content %}
+        {% endblock %}
+
+    </main>
+
+
+    <!-- =====================================================
+        FOOTER
+    ====================================================== -->
+
+    <footer class="site-footer">
+
+        <div class="container footer-grid">
+
+
+            <!-- =========================
+                MARCA
+            ========================== -->
+
+            <div class="footer-brand">
+
+                <div class="footer-logo">
+
+                    <span class="logo-mark">
+
+                        <img
+                            src="{{ configuracion.logo_header.url|default:'/media/logos/logoccj.png' }}"
+                            alt="Clínica Cruz Jiminian"
+                            class="brand-logo"
+                        >
+
+                    </span>
+
+
+                    <div>
+
+                        <strong>
+                            Clínica
+                        </strong>
+
+                        <span>
+                            Cruz Jiminian
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <p>
+
+                    Comprometidos con brindar atención médica
+                    profesional, humana y de calidad.
+
+                </p>
+
+            </div>
+
+
+            
+
+            <!-- =========================
+                CONTACTO
+            ========================== -->
+
+            <div class="footer-column">
+
+                <h3>
+                    Contacto
+                </h3>
+
+
+                <a href="{% url 'inicio' %}#contactos">
+                    Ver información de contacto
+                </a>
+
+
+                {% if contacto %}
+
+                    {% if contacto.telefono %}
+
+                        <a
+                            href="tel:{{ contacto.telefono }}"
+                        >
+                            {{ contacto.telefono }}
+                        </a>
+
+                    {% endif %}
+
+
+                    {% if contacto.email %}
+
+                        <a
+                            href="mailto:{{ contacto.email }}"
+                        >
+                            {{ contacto.email }}
+                        </a>
+
+                    {% endif %}
+
+
+                    {% if contacto.horario %}
+
+                        <span>
+                            {{ contacto.horario }}
+                        </span>
+
+                    {% endif %}
+
+                {% else %}
+
+                    <span>
+                        Atención médica profesional
+                    </span>
+
+                    <span>
+                        Lunes - Domingo
+                    </span>
+
+                {% endif %}
+
+            </div>
+
+
+            <!-- =========================
+                REDES SOCIALES
+            ========================== -->
+
+            <div class="footer-column">
+
+                <h3>
+                    Encuéntranos
+                </h3>
+
+
+                <div class="social-links">
+
+                    {% for red in redes_sociales %}
+
+                        <a
+                            href="{{ red.url }}"
+                            aria-label="{{ red.nombre }}"
+                            title="{{ red.nombre }}"
+                            {% if red.nueva_pestana %}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                            {% endif %}
+                        >
+
+                            {% if red.icono == "facebook" %}
+
+                                <i class="fa-brands fa-facebook-f"></i>
+
+                            {% elif red.icono == "instagram" %}
+
+                                <i class="fa-brands fa-instagram"></i>
+
+                            {% elif red.icono == "tiktok" %}
+
+                                <i class="fa-brands fa-tiktok"></i>
+
+                            {% elif red.icono == "youtube" %}
+
+                                <i class="fa-brands fa-youtube"></i>
+
+                            {% elif red.icono == "x" %}
+
+                                <i class="fa-brands fa-x-twitter"></i>
+
+                            {% elif red.icono == "linkedin" %}
+
+                                <i class="fa-brands fa-linkedin-in"></i>
+
+                            {% elif red.icono == "whatsapp" %}
+
+                                <i class="fa-brands fa-whatsapp"></i>
+
+                            {% elif red.icono == "telegram" %}
+
+                                <i class="fa-brands fa-telegram"></i>
+
+                            {% else %}
+
+                                <i class="fa-solid fa-globe"></i>
+
+                            {% endif %}
+
+                            <span>
+                                {{ red.nombre }}
+                            </span>
+
+                        </a>
+
+                    {% empty %}
+
+                        <span>
+                            Próximamente
+                        </span>
+
+                    {% endfor %}
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- =================================================
+            FOOTER BOTTOM
+        ================================================== -->
+
+        <div class="footer-bottom">
+
+            <div class="container">
+
+                <p>
+
+                    © {% now "Y" %}
+                    Clínica Cruz Jiminian.
+                    Todos los derechos reservados.
+
+                </p>
+
+            </div>
+
+        </div>
+
+    </footer>
+
+
+    <script src="{% static 'js/main.js' %}"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,216 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+Dr. {{ medico.nombre_completo }} | Clínica Cruz Jiminian
+{% endblock %}
+
+{% block content %}
+
+<section class="doctor-profile-section">
+    <div class="container">
+
+        <div class="doctor-profile">
+
+            <!-- FOTO -->
+            <div class="doctor-profile-photo">
+                {% if medico.foto %}
+                    <img
+                        src="{{ medico.foto.url }}"
+                        alt="Dr. {{ medico.nombre_completo }}"
+                    >
+                {% else %}
+                    <div class="doctor-profile-placeholder">
+                        CCJ
+                    </div>
+                {% endif %}
+            </div>
+
+            <!-- INFORMACIÓN -->
+            <div class="doctor-profile-content">
+
+                <span class="section-label">
+                    {{ medico.especialidad.nombre }}
+                </span>
+
+                <h1>
+                    Dr. {{ medico.nombre_completo }}
+                </h1>
+
+                {% if medico.descripcion %}
+                    <p class="doctor-profile-description">
+                        {{ medico.descripcion }}
+                    </p>
+                {% else %}
+                    <p class="doctor-profile-description">
+                        Profesional de la salud de Clínica Cruz Jiminian.
+                    </p>
+                {% endif %}
+
+                {% if medico.matricula %}
+                    <div class="doctor-profile-registration">
+                        <span>Registro profesional</span>
+                        <strong>{{ medico.matricula }}</strong>
+                    </div>
+                {% endif %}
+
+                <div class="doctor-profile-actions">
+                    <a
+                        href="{% url 'inicio' %}?medico={{ medico.id }}#citas"
+                        class="btn btn-primary"
+                    >
+                        Reservar una cita
+                    </a>
+
+                    <a
+                        href="{% url 'catalogo_medicos' %}"
+                        class="doctor-back-link"
+                    >
+                        ← Ver todos los médicos
+                    </a>
+                </div>
+
+            </div>
+
+        </div>
+
+        {% if servicios %}
+        <section class="doctor-services">
+
+            <div class="doctor-services-heading">
+                <span class="section-label">
+                    SERVICIOS
+                </span>
+
+                <h2>
+                    Servicios que realiza
+                </h2>
+
+                <p>
+                    Conoce algunos de los servicios disponibles con
+                    el Dr. {{ medico.nombre_completo }}.
+                </p>
+            </div>
+
+            <div class="doctor-services-grid">
+
+                {% for servicio in servicios %}
+
+                    <div class="doctor-service-card">
+
+                        <div class="doctor-service-icon">
+                            ✓
+                        </div>
+
+                        <div>
+                            <h3>
+                                {{ servicio.nombre }}
+                            </h3>
+
+                            {% if servicio.descripcion %}
+                                <p>
+                                    {{ servicio.descripcion|truncatewords:25 }}
+                                </p>
+                            {% endif %}
+                        </div>
+
+                    </div>
+
+                {% endfor %}
+
+            </div>
+
+        </section>
+        {% endif %}
+        
+        <!-- HORARIO -->
+        <div class="doctor-schedule">
+
+            <div class="doctor-schedule-heading">
+                <span class="section-label">
+                    DISPONIBILIDAD
+                </span>
+
+                <h2>
+                    Horario de atención
+                </h2>
+
+                <p>
+                    Consulta los días y horarios habituales de atención
+                    de este médico.
+                </p>
+            </div>
+
+            {% if horarios %}
+
+                <div class="doctor-schedule-grid">
+
+                    {% for horario in horarios %}
+
+                        <div class="doctor-schedule-item">
+
+                            <div class="doctor-schedule-day">
+                                {{ horario.get_dia_semana_display }}
+                            </div>
+
+                            <div class="doctor-schedule-time">
+                                {{ horario.hora_inicio|time:"h:i A" }}
+                                –
+                                {{ horario.hora_fin|time:"h:i A" }}
+                            </div>
+
+                            <div class="doctor-schedule-interval">
+                                Citas cada {{ horario.intervalo_minutos }} minutos
+                            </div>
+
+                        </div>
+
+                    {% endfor %}
+
+                </div>
+
+            {% else %}
+
+                <div class="doctor-schedule-empty">
+                    <p>
+                        Actualmente no hay horarios de atención publicados.
+                    </p>
+                </div>
+
+            {% endif %}
+
+        </div>
+
+
+        <!-- CTA -->
+        <div class="doctor-profile-cta">
+
+            <div>
+                <span class="section-label">
+                    AGENDA TU CITA
+                </span>
+
+                <h2>
+                    ¿Deseas consultar con el Dr.
+                    {{ medico.nombre_completo }}?
+                </h2>
+
+                <p>
+                    Selecciona una fecha y hora disponible para solicitar
+                    tu cita.
+                </p>
+            </div>
+
+            <a
+                href="{% url 'inicio' %}?medico={{ medico.id }}#citas"
+                class="btn btn-primary"
+            >
+                Reservar cita
+            </a>
+
+        </div>
+
+    </div>
+</section>
+
+{% endblock %}

@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+
+{% block title %}Cita registrada | Clínica Cruz Jiminian{% endblock %}
+
+{% block content %}
+
+<section class="appointment-confirmation">
+    <div class="confirmation-container">
+
+        <div class="confirmation-icon">
+            ✓
+        </div>
+
+        <h1>¡Cita registrada!</h1>
+
+        <p class="confirmation-message">
+            Tu solicitud de cita fue registrada correctamente.
+        </p>
+
+        <div class="appointment-number">
+            <span>Número de cita</span>
+            <strong>{{ cita.numero_cita }}</strong>
+        </div>
+
+        <div class="appointment-details">
+
+            <div class="detail-item">
+                <span class="detail-label">Paciente</span>
+                <strong>
+                    {{ cita.paciente_nombre }} {{ cita.paciente_apellido }}
+                </strong>
+            </div>
+
+            <div class="detail-item">
+                <span class="detail-label">Médico</span>
+                <strong>
+                    {{ cita.medico }}
+                </strong>
+            </div>
+
+            <div class="detail-item">
+                <span class="detail-label">Fecha</span>
+                <strong>
+                    {{ cita.fecha|date:"d/m/Y" }}
+                </strong>
+            </div>
+
+            <div class="detail-item">
+                <span class="detail-label">Hora</span>
+                <strong>
+                    {{ cita.hora|time:"g:i A" }}
+                </strong>
+            </div>
+
+            <div class="detail-item">
+                <span class="detail-label">Estado</span>
+                <strong class="status-pending">
+                    {{ cita.get_estado_display }}
+                </strong>
+            </div>
+
+        </div>
+
+        <div class="confirmation-notice">
+            <strong>Importante</strong>
+            <p>
+                Conserva tu número de cita.
+                El personal de la clínica podrá utilizarlo para
+                identificar y gestionar tu cita.
+            </p>
+        </div>
+
+        <div class="confirmation-actions">
+            <a href="{% url 'inicio' %}" class="btn-primary">
+                Volver al inicio
+            </a>
+
+            <button
+                type="button"
+                class="btn-secondary"
+                onclick="window.print()"
+            >
+                Imprimir comprobante
+            </button>
+        </div>
+
+    </div>
+</section>
+
+{% endblock %}

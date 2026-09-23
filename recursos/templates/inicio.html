@@ -1,0 +1,747 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+Clínica Cruz Jiminian | Atención médica de calidad
+{% endblock %}
+
+{% block content %}
+
+<!-- ================= HERO ================= -->
+<section class="hero" id="inicio">
+    <div class="hero-background" aria-hidden="true">
+        {% if hero and hero.fondo %}
+            {% if hero.es_video %}
+                <video class="hero-bg-media" autoplay muted loop playsinline preload="metadata">
+                    <source src="{{ hero.fondo.url }}">
+                </video>
+            {% else %}
+                <img class="hero-bg-media" src="{{ hero.fondo.url }}" alt="">
+            {% endif %}
+            <div class="hero-video-overlay" style="--hero-overlay: {{ hero.overlay }}%;"></div>
+        {% else %}
+            <div class="hero-default-background"></div>
+            <div class="hero-video-overlay" style="--hero-overlay: 65%;"></div>
+        {% endif %}
+        <div class="hero-shape hero-shape-one"></div>
+        <div class="hero-shape hero-shape-two"></div>
+    </div>
+
+    <div class="container hero-content">
+        <div class="hero-text">
+
+            <span class="hero-label">CLÍNICA CRUZ JIMINIAN</span>
+            <h1>{{ hero.titulo|default:"Cuidamos tu salud, cuidamos de ti." }}</h1>
+            <p>{{ hero.subtitulo|default:"Atención médica profesional, humana y cercana, porque tu bienestar y el de tu familia merecen lo mejor." }}</p>
+
+            <div class="hero-actions">
+                <a href="#citas" class="btn btn-primary js-open-appointment">Reservar una cita</a>
+                <a href="#servicios" class="btn btn-outline">Ver servicios</a>
+            </div>
+
+            <div class="hero-trust">
+                <div><strong>+10</strong><span>Especialidades</span></div>
+                <div><strong>+20</strong><span>Profesionales</span></div>
+                <div><strong>24/7</strong><span>Compromiso</span></div>
+            </div>
+        </div>
+
+        <div class="hero-first-card">
+            <div class="hero-card-icon">+</div>
+            <div>
+                <strong>Tu salud primero</strong>
+                <span>Atención profesional y humana</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!-- ================= SOBRE NOSOTROS ================= -->
+
+<section class="section about-section" id="sobre-nosotros">
+
+    <div class="container about-grid">
+
+        <div class="about-visual">
+
+            <div class="about-carousel" id="about-carousel" aria-label="Imágenes de Clínica Cruz Jiminian">
+                {% if fotos_sobre_nosotros %}
+                    {% for foto in fotos_sobre_nosotros %}
+                        <div class="about-slide{% if forloop.first %} is-active{% endif %}">
+                            <img src="{{ foto.imagen.url }}" alt="{{ foto.texto_alternativo|default:'Clínica Cruz Jiminian' }}" loading="{% if forloop.first %}eager{% else %}lazy{% endif %}">
+                        </div>
+                    {% endfor %}
+                    {% if fotos_sobre_nosotros|length > 1 %}
+                        <div class="about-carousel-dots" role="tablist" aria-label="Seleccionar imagen">
+                            {% for foto in fotos_sobre_nosotros %}
+                                <button type="button" class="about-dot{% if forloop.first %} is-active{% endif %}" data-slide="{{ forloop.counter0 }}" aria-label="Mostrar imagen {{ forloop.counter }}" aria-selected="{% if forloop.first %}true{% else %}false{% endif %}"></button>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                {% else %}
+                    <div class="about-slide is-active about-placeholder-slide">
+                        <span>CCJ</span>
+                    </div>
+                {% endif %}
+            </div>
+
+            <div class="experience-card">
+
+                {% if sobre_nosotros %}
+
+                    <strong>
+                        {{ sobre_nosotros.tarjeta_titulo }}
+                    </strong>
+
+                    <span>
+                        {{ sobre_nosotros.tarjeta_subtitulo }}
+                    </span>
+
+                {% else %}
+
+                    <strong>
+                        Compromiso
+                    </strong>
+
+                    <span>
+                        con tu bienestar
+                    </span>
+
+                {% endif %}
+
+            </div>
+
+        </div>
+
+
+        <div class="about-content">
+
+            {% if sobre_nosotros %}
+
+                <span class="section-label">
+                    {{ sobre_nosotros.etiqueta }}
+                </span>
+
+                <h2>
+                    {{ sobre_nosotros.titulo }}
+                </h2>
+
+                <p>
+                    {{ sobre_nosotros.parrafo_1 }}
+                </p>
+
+                <p>
+                    {{ sobre_nosotros.parrafo_2 }}
+                </p>
+
+                <div class="about-features">
+
+                    <div class="feature">
+
+                        <div class="feature-icon">
+                            ✓
+                        </div>
+
+                        <div>
+                            <strong>
+                                {{ sobre_nosotros.caracteristica_1_titulo }}
+                            </strong>
+
+                            <span>
+                                {{ sobre_nosotros.caracteristica_1_descripcion }}
+                            </span>
+                        </div>
+
+                    </div>
+
+                    <div class="feature">
+
+                        <div class="feature-icon">
+                            ✓
+                        </div>
+
+                        <div>
+                            <strong>
+                                {{ sobre_nosotros.caracteristica_2_titulo }}
+                            </strong>
+
+                            <span>
+                                {{ sobre_nosotros.caracteristica_2_descripcion }}
+                            </span>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            {% else %}
+
+                <span class="section-label">
+                    SOBRE NOSOTROS
+                </span>
+
+                <h2>
+                    Una clínica comprometida con tu bienestar
+                </h2>
+
+                <p>
+                    En Clínica Cruz Jiminian creemos que una buena
+                    atención médica comienza escuchando a nuestros pacientes.
+                </p>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= SERVICIOS ================= -->
+
+<section class="section services-section" id="servicios">
+
+    <div class="container">
+
+        <div class="section-heading centered">
+
+            <span class="section-label">
+                NUESTROS SERVICIOS
+            </span>
+
+            <h2>
+                Atención médica integral
+            </h2>
+
+            <p>
+                Conoce nuestras principales áreas de servicios
+                y los estudios disponibles para nuestros pacientes.
+            </p>
+
+        </div>
+
+
+        <div class="services-grid">
+
+            {% for area in areas_servicios %}
+
+                <article class="service-card">
+
+                    {% if area.imagen %}
+
+                        <div class="service-card-image">
+
+                            <img
+                                src="{{ area.imagen.url }}"
+                                alt="{{ area.nombre }}"
+                                loading="lazy"
+                            >
+
+                        </div>
+
+                    {% else %}
+
+                        <div class="service-icon">
+                            {{ area.icono|default:"+" }}
+                        </div>
+
+                    {% endif %}
+
+
+                    <div class="service-card-content">
+
+                        <h3>
+                            {{ area.nombre }}
+                        </h3>
+
+
+                        {% if area.descripcion %}
+
+                            <p>
+                                {{ area.descripcion }}
+                            </p>
+
+                        {% else %}
+
+                            <p>
+                                Conoce los estudios y servicios
+                                disponibles en esta área.
+                            </p>
+
+                        {% endif %}
+
+
+                        <a
+                            href="{% url 'catalogo_area' area.slug %}"
+                        >
+                            Conocer servicios →
+                        </a>
+
+                    </div>
+
+                </article>
+
+            {% empty %}
+
+                <p>
+                    Próximamente tendremos información
+                    sobre nuestros servicios.
+                </p>
+
+            {% endfor %}
+
+        </div>
+
+
+        <div class="section-action">
+
+            <a
+                href="{% url 'catalogo_servicios' %}"
+                class="btn btn-secondary"
+            >
+                Ver todos los servicios
+            </a>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= MÉDICOS ================= -->
+
+<section class="section doctors-section" id="medicos">
+
+    <div class="container">
+
+        <div class="section-heading doctors-heading">
+
+            <div>
+
+                <span class="section-label">
+                    NUESTRO EQUIPO
+                </span>
+
+                <h2>
+                    Profesionales a tu servicio
+                </h2>
+
+            </div>
+
+            <a href="{% url 'catalogo_medicos' %}" class="text-link">
+                Ver todos los médicos →
+            </a>
+
+        </div>
+
+
+        <div class="doctors-grid">
+
+            {% for medico in medicos_destacados %}
+
+                <article class="doctor-card">
+
+                    <div class="doctor-photo">
+
+                        {% if medico.foto %}
+
+                            <img 
+                                src="{{ medico.foto.url }}" 
+                                alt="{{ medico.nombre_completo }}"
+                            >
+
+                        {% else %}
+
+                            <span>
+                                CCJ
+                            </span>
+
+                        {% endif %}
+
+                    </div>
+
+                    <div class="doctor-info">
+
+                        <span>
+                            {{ medico.especialidad.nombre }}
+                        </span>
+
+                        <h3>
+                            {{ medico.nombre_completo }}
+                        </h3>
+
+                        <p>
+                            {{ medico.descripcion|default:"Profesional de la salud." }}
+                        </p>
+
+                        <a 
+                            href="{% url 'detalle_medico' medico.slug %}"
+                            class="doctor-btn"
+                        >
+                            Ver perfil
+                        </a>
+
+                    </div>
+
+                </article>
+
+            {% empty %}
+
+                <p>
+                    Próximamente conocerás a nuestro equipo médico.
+                </p>
+
+            {% endfor %}
+            
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= CITA ================= -->
+
+<section class="appointment-section" id="citas">
+    <div class="container">
+        <div class="appointment-card">
+            <div>
+                <span class="section-label">CITA MÉDICA</span>
+                <h2>¿Necesitas una consulta?</h2>
+                <p>
+                    Selecciona un médico y te mostraremos automáticamente las próximas fechas y horas disponibles.
+                </p>
+            </div>
+            <button type="button" class="btn btn-light js-open-appointment">
+                Reservar mi cita
+            </button>
+        </div>
+    </div>
+
+    <div class="appointment-modal" id="appointment-modal" aria-hidden="true">
+        <div class="appointment-modal-backdrop js-close-appointment"></div>
+        <div class="appointment-modal-dialog" role="dialog" aria-modal="true" aria-labelledby="appointment-modal-title">
+            <button type="button" class="appointment-modal-close js-close-appointment" aria-label="Cerrar formulario">&times;</button>
+
+            {% if messages %}
+                <div class="appointment-messages">
+                    {% for message in messages %}
+                        <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+
+            <div class="appointment-form-wrap">
+                <form method="POST" action="{% url 'reservar_cita' %}" id="appointment-form" class="appointment-form">
+                    {% csrf_token %}
+                    <span class="section-label">CITA MÉDICA</span>
+                    <h3 id="appointment-modal-title">Agenda tu cita</h3>
+                    <p class="appointment-form-intro">Fecha y hora se calculan según el horario configurado para cada médico.</p>
+
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="medico">Médico</label>
+                            <select name="medico" id="medico" required>
+                                <option value="">Selecciona un médico</option>
+                                {% for medico in medicos %}
+                                    <option 
+                                        value="{{ medico.id }}" 
+                                        {% if request.GET.medico == medico.id|stringformat:"s" %}selected{% endif %}
+                                    >
+                                        Dr. {{ medico.nombre_completo }} — {{ medico.especialidad.nombre }}
+                                    </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="fecha">Fecha disponible</label>
+                            <select name="fecha" id="fecha" required disabled>
+                                <option value="">Selecciona un médico primero</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="hora">Hora disponible</label>
+                            <select name="hora" id="hora" required disabled>
+                                <option value="">Selecciona una fecha primero</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="telefono">Teléfono</label>
+                            <input type="tel" name="telefono" id="telefono" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="paciente_nombre">Nombre</label>
+                            <input type="text" name="paciente_nombre" id="paciente_nombre" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="paciente_apellido">Apellido</label>
+                            <input type="text" name="paciente_apellido" id="paciente_apellido" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="email">Correo electrónico</label>
+                            <input type="email" name="email" id="email">
+                        </div>
+
+                        <div class="form-group full">
+                            <label for="motivo">Motivo de la consulta</label>
+                            <textarea name="motivo" id="motivo" rows="4"></textarea>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Confirmar cita</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!-- ================= CONTACTO ================= -->
+
+<section
+    class="section contact-section"
+    id="contactos"
+>
+
+    <div class="container">
+
+
+        <div class="section-heading centered">
+
+            <span class="section-label">
+                CONTACTO
+            </span>
+
+
+            {% if contacto %}
+
+                <h2>
+                    {{ contacto.titulo }}
+                </h2>
+
+
+                {% if contacto.descripcion %}
+
+                    <p>
+                        {{ contacto.descripcion }}
+                    </p>
+
+                {% endif %}
+
+            {% else %}
+
+                <h2>
+                    Estamos aquí para ayudarte
+                </h2>
+
+                <p>
+                    Ponte en contacto con nosotros para obtener más
+                    información sobre nuestros servicios.
+                </p>
+
+            {% endif %}
+
+        </div>
+
+
+        <div class="contact-grid">
+
+
+            <!-- =========================
+                TELÉFONO
+            ========================== -->
+
+            {% if contacto.telefono %}
+
+                <div class="contact-card">
+
+                    <div class="contact-icon">
+
+                        <i class="fa-solid fa-phone"></i>
+
+                    </div>
+
+
+                    <h3>
+                        Teléfono
+                    </h3>
+
+
+                    <p>
+
+                        <a
+                            href="tel:{{ contacto.telefono }}"
+                            class="contact-link"
+                        >
+                            {{ contacto.telefono }}
+                        </a>
+
+                    </p>
+
+                </div>
+
+            {% endif %}
+
+
+            <!-- =========================
+                WHATSAPP
+            ========================== -->
+
+            {% if contacto.whatsapp %}
+
+                <div class="contact-card">
+
+                    <div class="contact-icon">
+
+                        <i class="fa-brands fa-whatsapp"></i>
+
+                    </div>
+
+
+                    <h3>
+                        WhatsApp
+                    </h3>
+
+
+                    <p>
+
+                        <a
+                            href="https://wa.me/{{ contacto.whatsapp }}"
+                            class="contact-link"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                        >
+                            {{ contacto.whatsapp }}
+                        </a>
+
+                    </p>
+
+                </div>
+
+            {% endif %}
+
+
+            <!-- =========================
+                CORREO
+            ========================== -->
+
+            {% if contacto.email %}
+
+                <div class="contact-card">
+
+                    <div class="contact-icon">
+
+                        <i class="fa-solid fa-envelope"></i>
+
+                    </div>
+
+
+                    <h3>
+                        Correo electrónico
+                    </h3>
+
+
+                    <p>
+
+                        <a
+                            href="mailto:{{ contacto.email }}"
+                            class="contact-link"
+                        >
+                            {{ contacto.email }}
+                        </a>
+
+                    </p>
+
+                </div>
+
+            {% endif %}
+
+
+            <!-- =========================
+                UBICACIÓN
+            ========================== -->
+
+            {% if contacto.direccion %}
+
+                <div class="contact-card">
+
+                    <div class="contact-icon">
+
+                        <i class="fa-solid fa-location-dot"></i>
+
+                    </div>
+
+
+                    <h3>
+                        Ubicación
+                    </h3>
+
+
+                    <p>
+                        {{ contacto.direccion }}
+                    </p>
+
+
+                    {% if contacto.mapa_url %}
+
+                        <a
+                            href="{{ contacto.mapa_url }}"
+                            class="contact-link"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                        >
+                            Ver en Google Maps →
+                        </a>
+
+                    {% endif %}
+
+                </div>
+
+            {% endif %}
+
+
+            <!-- =========================
+                HORARIO
+            ========================== -->
+
+            {% if contacto.horario %}
+
+                <div class="contact-card">
+
+                    <div class="contact-icon">
+
+                        <i class="fa-regular fa-clock"></i>
+
+                    </div>
+
+
+                    <h3>
+                        Horario
+                    </h3>
+
+
+                    <p>
+                        {{ contacto.horario }}
+                    </p>
+
+                </div>
+
+            {% endif %}
+
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}

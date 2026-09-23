@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Médicos | Clínica Cruz Jiminian{% endblock %}
+
+{% block content %}
+<section class="catalog-hero">
+    <div class="container">
+        <span class="section-label">NUESTRO EQUIPO</span>
+        <h1>Catálogo de médicos</h1>
+        <p>Conoce a nuestros profesionales organizados por especialidad y reserva tu cita con el médico que prefieras.</p>
+    </div>
+</section>
+
+<section class="section doctors-catalog-section">
+    <div class="container">
+        {% for especialidad in especialidades %}
+            {% with medicos_especialidad=especialidad.medicos.all %}
+                {% if medicos_especialidad %}
+                    <div class="specialty-group">
+                        <div class="section-heading">
+                            <div>
+                                <span class="section-label">ESPECIALIDAD</span>
+                                <h2>{{ especialidad.nombre }}</h2>
+                            </div>
+                            {% if especialidad.descripcion %}<p>{{ especialidad.descripcion }}</p>{% endif %}
+                        </div>
+
+                        <div class="doctors-grid">
+                            {% for medico in medicos_especialidad %}
+                                {% if medico.activo %}
+                                    <article class="doctor-card">
+                                        <div class="doctor-photo">
+                                            {% if medico.foto %}
+                                                <img src="{{ medico.foto.url }}" alt="{{ medico.nombre_completo }}" loading="lazy">
+                                            {% else %}
+                                                <span>CCJ</span>
+                                            {% endif %}
+                                        </div>
+                                        <div class="doctor-info">
+                                            <span>{{ medico.especialidad.nombre }}</span>
+                                            <h3>Dr. {{ medico.nombre_completo }}</h3>
+                                            <p>{{ medico.descripcion|default:"Profesional de la salud." }}</p>
+                                            <a href="{% url 'detalle_medico' medico.slug %}" class="doctor-btn">Ver perfil</a>
+                                        </div>
+                                    </article>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                    </div>
+                {% endif %}
+            {% endwith %}
+        {% empty %}
+            <div class="empty-state"><h2>No hay médicos disponibles</h2><p>Próximamente publicaremos nuestro equipo médico.</p></div>
+        {% endfor %}
+    </div>
+</section>
+{% endblock %}

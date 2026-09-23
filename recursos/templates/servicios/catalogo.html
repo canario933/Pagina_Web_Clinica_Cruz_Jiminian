@@ -1,0 +1,190 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+Servicios | Clínica Cruz Jiminian
+{% endblock %}
+
+
+{% block content %}
+
+<section class="catalog-hero">
+
+    <div class="container">
+
+        <span class="section-label">
+            NUESTROS SERVICIOS
+        </span>
+
+        <h1>
+            Catálogo de servicios
+        </h1>
+
+        <p>
+            Conoce nuestras áreas de servicios y los estudios
+            disponibles en Clínica Cruz Jiminian.
+        </p>
+
+    </div>
+
+</section>
+
+
+<section class="section services-catalog-section">
+
+    <div class="container">
+
+        {% for area in areas %}
+
+            <div
+                class="service-area"
+                id="{{ area.slug }}"
+            >
+
+                <div class="section-heading">
+
+                    <div>
+
+                        <span class="section-label">
+                            ÁREA DE SERVICIO
+                        </span>
+
+                        <h2>
+                            {{ area.nombre }}
+                        </h2>
+
+                    </div>
+
+
+                    {% if area.descripcion %}
+
+                        <p>
+                            {{ area.descripcion }}
+                        </p>
+
+                    {% endif %}
+
+                </div>
+
+
+                <div class="services-grid">
+
+                    {% for servicio in area.servicios.all %}
+
+                        {% if servicio.activo %}
+
+                            <article class="service-card">
+
+                                <div class="service-icon">
+
+                                    {{ servicio.icono|default:"+" }}
+
+                                </div>
+
+
+                                <h3>
+                                    {{ servicio.nombre }}
+                                </h3>
+
+
+                                <p>
+                                    {{ servicio.descripcion }}
+                                </p>
+
+
+                                {% if servicio.preparacion %}
+
+                                    <div class="service-detail">
+
+                                        <strong>
+                                            Preparación
+                                        </strong>
+
+                                        <span>
+                                            {{ servicio.preparacion }}
+                                        </span>
+
+                                    </div>
+
+                                {% endif %}
+
+
+                                {% if servicio.duracion %}
+
+                                    <div class="service-detail">
+
+                                        <strong>
+                                            Duración
+                                        </strong>
+
+                                        <span>
+                                            {{ servicio.duracion }}
+                                        </span>
+
+                                    </div>
+
+                                {% endif %}
+
+                                {% if servicio.precio %}
+
+                                    <div class="service-detail">
+
+                                        <strong>
+                                            Precio Sin Seguro: 
+                                        </strong>
+                                        <span>
+                                            {{ servicio.precio }}
+                                        </span>
+
+                                    </div>
+
+                                {% endif %}
+
+
+                                {% if servicio.requiere_cita %}
+
+                                    <span class="service-badge">
+                                        Requiere cita
+                                    </span>
+
+                                {% endif %}
+
+                            </article>
+
+                        {% endif %}
+
+                    {% empty %}
+
+                        <p>
+                            Próximamente tendremos información
+                            sobre los estudios de esta área.
+                        </p>
+
+                    {% endfor %}
+
+                </div>
+
+            </div>
+
+        {% empty %}
+
+            <div class="empty-state">
+
+                <h2>
+                    Catálogo próximamente
+                </h2>
+
+                <p>
+                    Estamos preparando nuestro catálogo
+                    de servicios.
+                </p>
+
+            </div>
+
+        {% endfor %}
+
+    </div>
+
+</section>
+
+{% endblock %}
